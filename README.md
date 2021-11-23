@@ -12,7 +12,7 @@
 <p>Author e-mail:       <a href = "mailto: github@tobiarossi.ch">github@tobiarossi.ch</a></p>
 <p>Company Name:        SAMB</p>
 <p>Company Address:     Viale Stefano Franscini 25, 6502 Bellinzona, TI, CH</p>
-<p>Company e-mail:      <a href = "mailto: decs-cpt.bellinzonaedu.ti.ch">decs-cpt.bellinzonaedu.ti.ch</a></p>
+<p>Company e-mail:      <a href = "mailto: decs-cpt.bellinzona@edu.ti.ch">decs-cpt.bellinzona@edu.ti.ch</a></p>
 
 <h2>Description</h2>
 <p>In this project you can find the C++ code for a Teensy4.1 MCU for the project of the CanSat 2021 Competition showcase placed at the entrance of the school.</p>

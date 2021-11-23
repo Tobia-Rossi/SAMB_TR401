@@ -11,7 +11,7 @@
 
 // Company Name:        SAMB
 // Company Address:     Viale Stefano Franscini 25, 6502 Bellinzona, TI, CH
-// Company e-mail:      decs-cpt.bellinzonaedu.ti.ch
+// Company e-mail:      decs-cpt.bellinzona@edu.ti.ch
 
 
 
