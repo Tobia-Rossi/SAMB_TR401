@@ -17,12 +17,16 @@
 
 #include "DemoBoard.hpp"
 
+// static variables
+static uint32_t umidityBarPins[10] = {23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
+
 DemoBoard::DemoBoard()
 {
-
+	ledsBar = new LedsBar(10, umidityBarPins, HIGH);
 }
 
 DemoBoard::~DemoBoard()
 {
-	
+	delete ledsBar;
+	ledsBar = nullptr;
 }

@@ -32,8 +32,11 @@ class DemoBoard
 		DemoBoard();
 		virtual~DemoBoard();
 
+		// attributes class
+		LedsBar *ledsBar;
+
 	private:
-		
+	
 };
 
 #endif // __DEMOBOARD_HPP__

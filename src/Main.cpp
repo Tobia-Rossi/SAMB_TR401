@@ -18,13 +18,16 @@
 #include <Arduino.h>
 #include "DemoBoard.hpp"
 
-void setup() {
-	pinMode(LED_BUILTIN, OUTPUT);
+// Creates Demo Board Class Instance
+DemoBoard *demoBoard = new DemoBoard();
+
+void setup()
+{
+	demoBoard->ledsBar->setBarLevel(50);
 }
 
-void loop() {
-	digitalWrite(LED_BUILTIN, LOW);
-	delay(100);
-	digitalWrite(LED_BUILTIN, HIGH);
+void loop()
+{
+	demoBoard->ledsBar->toggleBarState();
 	delay(100);
 }
