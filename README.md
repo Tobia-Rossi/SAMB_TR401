@@ -1,13 +1,9 @@
 <p>
-<img src="https://img.shields.io/github/license/Tobia-Rossi/SAMB_TR401">
+<img src="https://img.shields.io/github/license/Tobia-Rossi/SAMB_TR401" href="https://github.com/Tobia-Rossi/SAMB_TR401/blob/master/LICENSE.md">
 <img src="https://img.shields.io/badge/SAMB-4E-blueviolet" alt="SAMB 4E" href="http://www.samb.ti.ch/"> 
 <img src=https://img.shields.io/badge/School%20Year-2021%2F22-blueviolet href="http://www.samb.ti.ch/">
-</p>
-<p>
 <img src="https://img.shields.io/github/languages/top/Tobia-Rossi/SAMB_TR401" href="https://github.com/Tobia-Rossi/SAMB_TR401">
 <img src="https://img.shields.io/github/languages/code-size/Tobia-Rossi/SAMB_TR401" href="https://github.com/Tobia-Rossi/SAMB_TR401">
-</p>
-<p>
 <img src="https://img.shields.io/reddit/user-karma/combined/Tobia-Rossi?style=social" href="https://www.reddit.com/user/Tobia-Rossi">
 <img src="https://img.shields.io/discord/921013923136811028" href="https://discord.gg/GemxCWtKCX"> 
 </p>
