@@ -1,10 +1,16 @@
+<p>
 <img src="https://img.shields.io/github/license/Tobia-Rossi/SAMB_TR401">
 <img src="https://img.shields.io/badge/SAMB-4E-blueviolet" alt="SAMB 4E"> 
 <img src=https://img.shields.io/badge/School%20Year-2021%2F22-blueviolet>
+</p>
+<p>
 <img src="https://img.shields.io/github/languages/top/Tobia-Rossi/SAMB_TR401">
 <img src="https://img.shields.io/github/languages/code-size/Tobia-Rossi/SAMB_TR401">
+</p>
+<p>
 <img src="https://img.shields.io/reddit/user-karma/combined/Tobia-Rossi?style=social">
 <img src="https://img.shields.io/discord/921013923136811028"> 
+</p>
 
 <h2><b>THE PROJECT IS A WORK IN PROGRESS!!</b></h2>
 
