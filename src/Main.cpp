@@ -23,7 +23,13 @@ DemoBoard *demoBoard = new DemoBoard();
 
 void setup()
 {
-	demoBoard->ledsBar->setBarLevel(50);
+	for (int i = 0; i < 10; i++){
+		if (demoBoard->ledsBar->getLedState((i - 1)) == false) {
+			demoBoard->ledsBar->setLedState(i, true);
+		} else {
+			demoBoard->ledsBar->setLedState(i, false);
+		}
+	}
 }
 
 void loop()
