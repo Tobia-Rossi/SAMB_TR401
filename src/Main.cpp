@@ -53,5 +53,10 @@ void capacitiveButtonPressed()
 
 void switchCOrFChanged()
 {
-	demoBoard->ledsBar->toggleBarState();
+	static uint32_t previousMicros = micros();
+
+	if ((micros() - previousMicros) >= 5000) {
+		demoBoard->ledsBar->toggleBarState();
+		previousMicros = micros();
+	}
 }
