@@ -14,15 +14,48 @@
 // Company e-mail:      decs-cpt.bellinzonaedu.ti.ch
 
 
-
+// Application Includes
 #include "CapacitiveButton.hpp"
 
-CapacitiveButton::CapacitiveButton()
+
+
+// System Includes
+
+
+
+// Class Implementation
+
+// Pubblic
+CapacitiveButton::CapacitiveButton(uint32_t buttonPin, bool buttonPressedLevel)
 {
-	
+	_buttonPin = buttonPin;
+	_buttonPressedLevel = buttonPressedLevel;
+
+	pinMode(_buttonPin, INPUT);
 }
 
 CapacitiveButton::~CapacitiveButton()
 {
 
 }
+
+bool CapacitiveButton::getButtonState() const
+{
+	if (digitalRead(_buttonPin) == _buttonPressedLevel) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+void CapacitiveButton::setButtonPressedLevel(bool buttonPressedLevel)
+{
+	_buttonPressedLevel = buttonPressedLevel;
+}
+
+void CapacitiveButton::setClickedInterruptFunction(void (*buttonCallBack)())
+{
+	attachInterrupt(digitalPinToInterrupt(_buttonPin), buttonCallBack, RISING);
+}
+
+// Private

@@ -18,14 +18,41 @@
 #ifndef __CAPACITIVEBUTTON_HPP__
 #define __CAPACITIVEBUTTON_HPP__
 
+
+
+// Application Include
+#include <Arduino.h>
+
+
+
+// System Include
+#include <stdint.h>
+
+
+
+// Class Declaration
 class CapacitiveButton
 {
 	public:
-		CapacitiveButton();
+		// Methods
+		CapacitiveButton() = delete;
+		CapacitiveButton(uint32_t buttonPin, bool buttonPressedLevel);
 		virtual ~CapacitiveButton();
 
-	private:
+		bool getButtonState() const;
+		void setButtonPressedLevel(bool buttonPressedLevel);
 
+		void setClickedInterruptFunction(void (*buttonCallBack) ());
+
+		// Attributes
+		// Not Allowed
+
+	private:
+		// Methods
+
+		// Attributes
+		uint32_t _buttonPin;
+		bool _buttonPressedLevel;
 };
 
 #endif // __CAPACITIVEBUTTON_HPP__
