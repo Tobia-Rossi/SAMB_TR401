@@ -33,6 +33,7 @@ class DemoBoard
 		virtual~DemoBoard();
 
 		// attribute classes
+		Buzzer *buzzer;
 		CapacitiveButton *capacitiveButton;
 		LedsBar *ledsBar;
 
