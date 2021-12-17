@@ -24,4 +24,4 @@
 
 <h2>Description</h2>
 <p>In this project you can find the C++ code for a Teensy4.1 MCU for the project of the CanSat 2021 Competition showcase placed at the entrance of the school.</p>
-<p>The code was written using Visual Studio Code - Insiders (SNAP stable: 4e303fcc) on Linux Manjaro and the PlatformIO extension (Core Version: 5.2.3 & Home Version: 3.4.0).</p>
+<p>The code was written using Visual Studio Code - Insiders (SNAP stable: 4e303fcc) on Linux Manjaro and the PlatformIO extension (Core Version: 5.2.3 & Home Version: 3.4.0), this code should also be compilable using Teensyduino but I haven't tested if it does.</p>
