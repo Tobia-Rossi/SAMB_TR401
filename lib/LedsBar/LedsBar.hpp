@@ -41,10 +41,10 @@ class LedsBar
 		virtual ~LedsBar();
 
 		void setLedState(uint32_t ledNum, bool state);
-		bool getLedState(uint32_t ledNum);
+		bool getLedState(uint32_t ledNum) const;
 
 		void setBarLevel(float percentual);
-		float getBarLevel();
+		float getBarLevel() const;
 
 		void toggleBarState();
 		void setLedOnLevel(bool ledOnLevel);

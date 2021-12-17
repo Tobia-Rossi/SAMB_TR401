@@ -68,7 +68,7 @@ void LedsBar::setLedState(uint32_t ledNum, bool state)
 	}
 }
 
-bool LedsBar::getLedState(uint32_t ledNum)
+bool LedsBar::getLedState(uint32_t ledNum) const
 {
 	if (ledNum < _numOfLeds) {
 		if (digitalRead(_ledsPins[ledNum]) == _ledsOnLevel) {
@@ -94,7 +94,7 @@ void LedsBar::setBarLevel(float percentual)
 	}
 }
 
-float LedsBar::getBarLevel()
+float LedsBar::getBarLevel() const
 {
 	return _barLevel;
 }
