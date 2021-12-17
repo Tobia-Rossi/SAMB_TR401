@@ -1,5 +1,5 @@
-// File Name:           CapacitiveButton.cpp
-// File Description:    Capacitive button class implementation
+// File Name:           Button.cpp
+// File Description:    Button class implementation
 
 // Project Title:       Vetrina Entrata SAMB - CanSat 2021
 // Project Category:    SAMB
@@ -15,8 +15,8 @@
 
 
 
-#ifndef __CAPACITIVEBUTTON_HPP__
-#define __CAPACITIVEBUTTON_HPP__
+#ifndef __BUTTON_HPP__
+#define __BUTTON_HPP__
 
 
 
@@ -31,13 +31,13 @@
 
 
 // Class Declaration
-class CapacitiveButton
+class Button
 {
 	public:
 		// Methods
-		CapacitiveButton() = delete;
-		CapacitiveButton(uint32_t buttonPin, bool buttonPressedLevel);
-		virtual ~CapacitiveButton();
+		Button() = delete;
+		Button(uint32_t buttonPin, bool buttonPressedLevel);
+		virtual ~Button();
 
 		bool getButtonState() const;
 		void setButtonPressedLevel(bool buttonPressedLevel);
@@ -55,4 +55,4 @@ class CapacitiveButton
 		bool _buttonPressedLevel;
 };
 
-#endif // __CAPACITIVEBUTTON_HPP__
+#endif // __BUTTON_HPP__

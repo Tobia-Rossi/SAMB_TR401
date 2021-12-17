@@ -20,7 +20,7 @@
 
 #include "Bluetooth.hpp"
 #include "Buzzer.hpp"
-#include "CapacitiveButton.hpp"
+#include "Button.hpp"
 #include "Dht11.hpp"
 #include "LedsBar.hpp"
 #include "RgbLeds.hpp"
@@ -35,7 +35,7 @@ class DemoBoard
 
 		// attribute classes
 		Buzzer *buzzer;
-		CapacitiveButton *capacitiveButton;
+		Button *capacitiveButton;
 		LedsBar *ledsBar;
 		Switch *switchCOrF;
 

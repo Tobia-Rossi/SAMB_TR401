@@ -1,5 +1,5 @@
-// File Name:           CapacitiveButton.hpp
-// File Description:    Capacitive button class declarations
+// File Name:           Button.hpp
+// File Description:    Button class declarations
 
 // Project Title:       Vetrina Entrata SAMB - CanSat 2021
 // Project Category:    SAMB
@@ -15,7 +15,7 @@
 
 
 // Application Includes
-#include "CapacitiveButton.hpp"
+#include "Button.hpp"
 
 
 
@@ -26,7 +26,7 @@
 // Class Implementation
 
 // Pubblic
-CapacitiveButton::CapacitiveButton(uint32_t buttonPin, bool buttonPressedLevel)
+Button::Button(uint32_t buttonPin, bool buttonPressedLevel)
 {
 	_buttonPin = buttonPin;
 	_buttonPressedLevel = buttonPressedLevel;
@@ -34,12 +34,12 @@ CapacitiveButton::CapacitiveButton(uint32_t buttonPin, bool buttonPressedLevel)
 	pinMode(_buttonPin, INPUT);
 }
 
-CapacitiveButton::~CapacitiveButton()
+Button::~Button()
 {
 
 }
 
-bool CapacitiveButton::getButtonState() const
+bool Button::getButtonState() const
 {
 	if (digitalRead(_buttonPin) == _buttonPressedLevel) {
 		return true;
@@ -48,12 +48,12 @@ bool CapacitiveButton::getButtonState() const
 	}
 }
 
-void CapacitiveButton::setButtonPressedLevel(bool buttonPressedLevel)
+void Button::setButtonPressedLevel(bool buttonPressedLevel)
 {
 	_buttonPressedLevel = buttonPressedLevel;
 }
 
-void CapacitiveButton::setClickedInterruptFunction(void (*buttonCallBack)())
+void Button::setClickedInterruptFunction(void (*buttonCallBack)())
 {
 	attachInterrupt(digitalPinToInterrupt(_buttonPin), buttonCallBack, RISING);
 }
