@@ -25,6 +25,7 @@ DemoBoard::DemoBoard()
 	buzzer = new Buzzer(2);
 	capacitiveButton = new CapacitiveButton(13, HIGH);
 	ledsBar = new LedsBar(10, umidityBarPins, HIGH);
+	switchCOrF = new Switch(32);
 }
 
 DemoBoard::~DemoBoard()
@@ -40,4 +41,8 @@ DemoBoard::~DemoBoard()
 	// Delete LedsBar
 	delete ledsBar;
 	ledsBar = nullptr;
+
+	// Delete Switch C or F
+	delete switchCOrF;
+	switchCOrF = nullptr;
 }

@@ -25,6 +25,7 @@
 #include "LedsBar.hpp"
 #include "RgbLeds.hpp"
 #include "SevenSegDisplays.hpp"
+#include "Switch.hpp"
 
 class DemoBoard
 {
@@ -36,6 +37,7 @@ class DemoBoard
 		Buzzer *buzzer;
 		CapacitiveButton *capacitiveButton;
 		LedsBar *ledsBar;
+		Switch *switchCOrF;
 
 	private:
 	
