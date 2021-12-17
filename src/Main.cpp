@@ -23,6 +23,7 @@ static DemoBoard *demoBoard = new DemoBoard();
 
 // Declaration of CallBack functions
 void capacitiveButtonPressed();
+void switchCOrFChanged();
 
 void setup()
 {
@@ -35,6 +36,7 @@ void setup()
 	}
 
 	demoBoard->capacitiveButton->setClickedInterruptFunction(capacitiveButtonPressed);
+	demoBoard->switchCOrF->setChangedInterruptFunction(switchCOrFChanged);
 }
 
 void loop()
@@ -47,4 +49,9 @@ void capacitiveButtonPressed()
 {
 	demoBoard->ledsBar->toggleBarState();
 	demoBoard->buzzer->makeSound(2500, 300);
+}
+
+void switchCOrFChanged()
+{
+	demoBoard->ledsBar->toggleBarState();
 }
