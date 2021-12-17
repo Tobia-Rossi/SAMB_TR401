@@ -46,4 +46,5 @@ void loop()
 void capacitiveButtonPressed()
 {
 	demoBoard->ledsBar->toggleBarState();
+	demoBoard->buzzer->makeSound(2500, 300);
 }
