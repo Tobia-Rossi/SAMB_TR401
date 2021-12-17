@@ -24,7 +24,7 @@
 #include "Dht11.hpp"
 #include "LedsBar.hpp"
 #include "RgbLeds.hpp"
-#include "SevenSegDisplays.hpp"
+#include "BcdSevenSegDisplay.hpp"
 #include "Switch.hpp"
 
 class DemoBoard

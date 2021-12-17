@@ -1,5 +1,5 @@
-// File Name:           SevenSegDisplays.cpp
-// File Description:    Seven segment displays class implementations
+// File Name:           BcdSevenSegDisplay.cpp
+// File Description:    BCD Seven segment display class implementations
 
 // Project Title:       Vetrina Entrata SAMB - CanSat 2021
 // Project Category:    SAMB
@@ -14,15 +14,21 @@
 // Company e-mail:      decs-cpt.bellinzonaedu.ti.ch
 
 
+// Application Includes
+#include "BcdSevenSegDisplay.hpp"
 
-#include "SevenSegDisplays.hpp"
 
-SevenSegDisplays::SevenSegDisplays()
+
+// System Includes
+
+
+
+// Class Implementation
+
+// Public
+BcdSevenSegDisplay::~BcdSevenSegDisplay()
 {
 
 }
 
-SevenSegDisplays::~SevenSegDisplays()
-{
-
-}
+// Private
