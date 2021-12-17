@@ -14,15 +14,58 @@
 // Company e-mail:      decs-cpt.bellinzonaedu.ti.ch
 
 
-
+// Application Includes
 #include "Buzzer.hpp"
 
-Buzzer::Buzzer()
-{
 
+
+// System Includes
+
+
+
+// Class Implementation
+// Pubblic
+Buzzer::Buzzer(uint32_t buzzerPin)
+{
+	_buzzerPin = buzzerPin;
+	_buzzerSoundFrequency = 1000;
+	_buzzerSoundDuration = 200;
+
+	pinMode(_buzzerPin, OUTPUT);
+}
+
+Buzzer::Buzzer(uint32_t buzzerPin, uint32_t buzzerSoundFrequency, uint32_t buzzerSoundDuration)
+{
+	_buzzerPin = buzzerPin;
+	_buzzerSoundFrequency = buzzerSoundFrequency;
+	_buzzerSoundDuration = buzzerSoundDuration;
+
+	pinMode(_buzzerPin, OUTPUT);
 }
 
 Buzzer::~Buzzer()
 {
 	
 }
+
+void Buzzer::setBuzzerSoundFrequency(uint32_t buzzerSoundFrequency)
+{
+	_buzzerSoundFrequency = buzzerSoundFrequency;
+}
+
+void Buzzer::setBuzzerSoundDuration(uint32_t buzzerSoundDuration)
+{
+	_buzzerSoundDuration = buzzerSoundDuration;
+}
+
+void Buzzer::makeSound(uint32_t soundFrequency, uint32_t soundDuration)
+{
+	tone(_buzzerPin, soundFrequency, soundDuration);
+}
+
+void Buzzer::makeSound()
+{
+	tone(_buzzerPin, _buzzerSoundFrequency, _buzzerSoundDuration);
+}
+
+// Private

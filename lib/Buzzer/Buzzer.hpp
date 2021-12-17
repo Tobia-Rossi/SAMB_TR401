@@ -15,17 +15,46 @@
 
 
 
+// Application Include
+#include <Arduino.h>
+
+
+
+// System Include
+#include <stdint.h>
+
+
+
+// Class Declaration
 #ifndef __BUZZER_HPP__
 #define __BUZZER_HPP__
 
 class Buzzer
 {
 	public:
-		Buzzer();
+		// Methods
+		Buzzer() = delete;
+		Buzzer(uint32_t buzzerPin);
+		Buzzer(uint32_t buzzerPin, uint32_t buzzerSoundFrequency, uint32_t buzzerSoundDuration);
 		virtual ~Buzzer();
+
+		void setBuzzerSoundFrequency(uint32_t buzzerSoundFrequency);
+		void setBuzzerSoundDuration(uint32_t buzzerSoundDuration);
+
+		void makeSound();
+		void makeSound(uint32_t soundFrequency, uint32_t soundDuration);
+		
+
+		// Attributes
+		// Not Allowed
 		
 	private:
+		// Methods
 
+		// Attributes
+		uint32_t _buzzerPin;
+		uint32_t _buzzerSoundFrequency;
+		uint32_t _buzzerSoundDuration;
 };
 
 #endif // __BUZZER_HPP__
