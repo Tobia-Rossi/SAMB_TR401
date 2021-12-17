@@ -47,6 +47,7 @@ class LedsBar
 		float getBarLevel();
 
 		void toggleBarState();
+		void setLedOnLevel(bool ledOnLevel);
 
 		// Attributes
 		// Not Allowed

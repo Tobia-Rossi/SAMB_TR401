@@ -106,6 +106,11 @@ void LedsBar::toggleBarState()
 	}
 }
 
+void LedsBar::setLedOnLevel(bool ledOnLevel)
+{
+	_ledsOnLevel = ledOnLevel;
+}
+
 // Private
 void LedsBar::ledsInit()
 {
