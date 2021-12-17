@@ -35,6 +35,7 @@
 class LedsBar
 {
 	public:
+		// Methods
 		LedsBar();
 		LedsBar(uint32_t numOfLeds, uint32_t ledsPins[], bool ledOnLevel);
 		virtual ~LedsBar();
@@ -46,12 +47,14 @@ class LedsBar
 		float getBarLevel();
 
 		void toggleBarState();
+
+		// Attributes
 		
 	private:
-		// methods
+		// Methods
 		void ledsInit();
 
-		// atributes
+		// Attributes
 		uint32_t _numOfLeds;
 		uint32_t *_ledsPins;
 		bool _ledsOnLevel;
