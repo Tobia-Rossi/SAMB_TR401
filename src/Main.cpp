@@ -19,7 +19,10 @@
 #include "DemoBoard.hpp"
 
 // Creates Demo Board Class Instance
-DemoBoard *demoBoard = new DemoBoard();
+static DemoBoard *demoBoard = new DemoBoard();
+
+// Declaration of CallBack functions
+void capacitiveButtonPressed();
 
 void setup()
 {
@@ -30,10 +33,17 @@ void setup()
 			demoBoard->ledsBar->setLedState(i, false);
 		}
 	}
+
+	demoBoard->capacitiveButton->setClickedInterruptFunction(capacitiveButtonPressed);
 }
 
 void loop()
 {
+
+}
+
+// Callbacks
+void capacitiveButtonPressed()
+{
 	demoBoard->ledsBar->toggleBarState();
-	delay(100);
 }
