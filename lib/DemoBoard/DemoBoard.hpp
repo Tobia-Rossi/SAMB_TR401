@@ -32,7 +32,8 @@ class DemoBoard
 		DemoBoard();
 		virtual~DemoBoard();
 
-		// attributes class
+		// attribute classes
+		CapacitiveButton *capacitiveButton;
 		LedsBar *ledsBar;
 
 	private:

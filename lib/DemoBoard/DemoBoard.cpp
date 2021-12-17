@@ -22,11 +22,17 @@ static uint32_t umidityBarPins[10] = {23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
 
 DemoBoard::DemoBoard()
 {
+	capacitiveButton = new CapacitiveButton(13, HIGH);
 	ledsBar = new LedsBar(10, umidityBarPins, HIGH);
 }
 
 DemoBoard::~DemoBoard()
 {
+	// Delete Capacitive Button
+	delete capacitiveButton;
+	capacitiveButton = nullptr;
+
+	// Delete LedsBar
 	delete ledsBar;
 	ledsBar = nullptr;
 }
