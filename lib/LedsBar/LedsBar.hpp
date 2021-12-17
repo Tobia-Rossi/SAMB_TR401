@@ -49,6 +49,7 @@ class LedsBar
 		void toggleBarState();
 
 		// Attributes
+		// Not Allowed
 		
 	private:
 		// Methods
