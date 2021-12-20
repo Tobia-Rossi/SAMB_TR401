@@ -24,12 +24,16 @@ static uint32_t sevenSegmentDisplayUnitsPins[4] = {37, 36, 35, 34};
 
 DemoBoard::DemoBoard()
 {
-	sevenSegmentDisplayTens = new BcdSevenSegDisplay(sevenSegmentDisplayTensPins);
-	sevenSegmentDisplayUnits = new BcdSevenSegDisplay(sevenSegmentDisplayUnitsPins);
+	_sevenSegmentDisplayTens = new BcdSevenSegDisplay(sevenSegmentDisplayTensPins);
+	_sevenSegmentDisplayUnits = new BcdSevenSegDisplay(sevenSegmentDisplayUnitsPins);
 	capacitiveButton = new Button(13, HIGH);
 	buzzer = new Buzzer(2);
-	ledsBar = new LedsBar(10, umidityBarPins, HIGH);
+	dht11 = new DHT(33, DHT11);
+	ledsBar = new LedsBar(10, umidityBarPins, LOW);
 	switchCOrF = new Switch(32);
+
+	_sevenSegmentDisplaysNumber = 88;
+	_temperatureIsInCelsius = !switchCOrF->getSwitchState();
 }
 
 DemoBoard::~DemoBoard()
@@ -41,6 +45,10 @@ DemoBoard::~DemoBoard()
 	// Delete Buzzer
 	delete buzzer;
 	buzzer = nullptr;
+
+	// Delete DHT11
+	delete dht11;
+	dht11 = nullptr;
 
 	// Delete LedsBar
 	delete ledsBar;
@@ -55,10 +63,20 @@ void DemoBoard::setSevenSegmentDisplaysNumber(uint8_t number)
 {
 	_sevenSegmentDisplaysNumber = number;
 
-	sevenSegmentDisplayTens->bcdSevenSegDisplaySetNumber((_sevenSegmentDisplaysNumber / 10));
-	sevenSegmentDisplayUnits->bcdSevenSegDisplaySetNumber((_sevenSegmentDisplaysNumber % 10));}
+	_sevenSegmentDisplayTens->bcdSevenSegDisplaySetNumber((_sevenSegmentDisplaysNumber / 10));
+	_sevenSegmentDisplayUnits->bcdSevenSegDisplaySetNumber((_sevenSegmentDisplaysNumber % 10));}
 
 uint8_t DemoBoard::getSevenSegmentDisplaysNumber() const
 {
 	return _sevenSegmentDisplaysNumber;
+}
+
+void DemoBoard::setTemperatureIsInCelsius(bool temperatureIsInCelsius)
+{
+	_temperatureIsInCelsius = temperatureIsInCelsius;
+}
+
+bool DemoBoard::getTemperatureIsInCelsius()
+{
+	return _temperatureIsInCelsius;
 }

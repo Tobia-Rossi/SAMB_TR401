@@ -22,7 +22,7 @@
 #include "Bluetooth.hpp"
 #include "Button.hpp"
 #include "Buzzer.hpp"
-#include "Dht11.hpp"
+#include "DHT.h"
 #include "LedsBar.hpp"
 #include "RgbLeds.hpp"
 #include "Switch.hpp"
@@ -37,9 +37,13 @@ class DemoBoard
 		void setSevenSegmentDisplaysNumber(uint8_t number);
 		uint8_t getSevenSegmentDisplaysNumber() const;
 
+		void setTemperatureIsInCelsius(bool temperatureIsInCelsius);
+		bool getTemperatureIsInCelsius();
+
 		// Attribute classes
 		Button *capacitiveButton;
 		Buzzer *buzzer;
+		DHT *dht11;
 		LedsBar *ledsBar;
 		Switch *switchCOrF;
 
@@ -47,9 +51,10 @@ class DemoBoard
 		// Methods
 
 		// Attributes
-		BcdSevenSegDisplay *sevenSegmentDisplayTens;
-		BcdSevenSegDisplay *sevenSegmentDisplayUnits;
+		BcdSevenSegDisplay *_sevenSegmentDisplayTens;
+		BcdSevenSegDisplay *_sevenSegmentDisplayUnits;
 		uint8_t _sevenSegmentDisplaysNumber;
+		bool _temperatureIsInCelsius;
 	
 };
 
