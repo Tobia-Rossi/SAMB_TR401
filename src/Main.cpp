@@ -15,64 +15,78 @@
 
 
 
-#include <Arduino.h>
+// Application Includes
 #include "DemoBoard.hpp"
+
+
+
+// System Includes
+#include <Arduino.h>
+
+
+
+// Definitions
+#define READINGS_INTERVAL 2000
+
+
 
 // Creates Demo Board Class Instance
 static DemoBoard *demoBoard = new DemoBoard();
 
 // Declaration of CallBack functions
 void capacitiveButtonPressed();
-void switchCOrFChanged();
 
 // Pubblic Functions
+void readDht11Sensor()
+{
+	// Temperature
+	if (demoBoard->getTemperatureIsInCelsius() == true) {
+		demoBoard->setSevenSegmentDisplaysNumber(demoBoard->dht11->readTemperature());
+	} else {
+		demoBoard->setSevenSegmentDisplaysNumber(demoBoard->dht11->readTemperature(true));
+	}
+
+	// Humidity
+	demoBoard->ledsBar->setBarLevel(demoBoard->dht11->readHumidity());
+}
+
 void setup()
 {
 	for (int i = 0; i < 10; i++){
-		if (demoBoard->ledsBar->getLedState((i - 1)) == false) {
-			demoBoard->ledsBar->setLedState(i, true);
-		} else {
-			demoBoard->ledsBar->setLedState(i, false);
-		}
+		demoBoard->ledsBar->setLedState(i, false);
 	}
 
-	demoBoard->setSevenSegmentDisplaysNumber(55);
+	demoBoard->setSevenSegmentDisplaysNumber(88);
 
 	demoBoard->capacitiveButton->setClickedInterruptFunction(capacitiveButtonPressed);
-	demoBoard->switchCOrF->setChangedInterruptFunction(switchCOrFChanged);
+
+	demoBoard->dht11->begin();
 }
 
 void loop()
 {
+	static uint32_t previousReadingsMillis = millis();
 
+	// Reading interval elapsed actions
+	if (millis() - previousReadingsMillis >= READINGS_INTERVAL) {
+		// Unit Check
+		if (demoBoard->switchCOrF->getSwitchState() == true) {
+			demoBoard->setTemperatureIsInCelsius(false);
+		} else {
+			demoBoard->setTemperatureIsInCelsius(true);
+		}
+
+		// Reading
+		readDht11Sensor();
+		previousReadingsMillis = millis();
+	}
 }
 
 // Callbacks
 void capacitiveButtonPressed()
 {
-	demoBoard->ledsBar->toggleBarState();
+	// Makes Sound
 	demoBoard->buzzer->makeSound(2500, 300);
-
-	if (demoBoard->getSevenSegmentDisplaysNumber() < 99) {
-		demoBoard->setSevenSegmentDisplaysNumber(demoBoard->getSevenSegmentDisplaysNumber() + 1);
-	} else {
-		demoBoard->setSevenSegmentDisplaysNumber(0);
-	}
-}
-
-void switchCOrFChanged()
-{
-	static uint32_t previousMicros = micros();
-
-	if ((micros() - previousMicros) >= 5000) {
-		demoBoard->ledsBar->toggleBarState();
-
-		if (demoBoard->getSevenSegmentDisplaysNumber() < 99) {
-		demoBoard->setSevenSegmentDisplaysNumber(demoBoard->getSevenSegmentDisplaysNumber() + 1);
-		} else {
-			demoBoard->setSevenSegmentDisplaysNumber(0);
-		}
-
-		previousMicros = micros();
-	}
+	
+	// TODO: ADD RGB LEDS COLOR LIST RANDOM SELECT TOGGLE
 }
