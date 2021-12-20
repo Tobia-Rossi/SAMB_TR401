@@ -27,17 +27,6 @@
 // Class Implementation
 
 // Public
-LedsBar::LedsBar()
-{
-	_numOfLeds = 1;
-	_ledsPins = new uint32_t[_numOfLeds];
-	_ledsOnLevel = HIGH;
-
-	*_ledsPins = LED_BUILTIN;
-
-	ledsInit();
-}
-
 LedsBar::LedsBar(uint32_t numOfLeds, uint32_t ledsPins[], bool ledOnLevel)
 {
 	_numOfLeds = numOfLeds;
@@ -87,9 +76,9 @@ void LedsBar::setBarLevel(float percentual)
 
 	for (uint32_t i = 0; i < _numOfLeds; i++) {
 		if (i < (uint32_t)(percentual / (100.0 / _numOfLeds))) {
-			setLedState(i, _ledsOnLevel);
+			setLedState(i, true);
 		} else {
-			setLedState(i, !_ledsOnLevel);
+			setLedState(i, false);
 		}
 	}
 }
@@ -116,6 +105,6 @@ void LedsBar::ledsInit()
 {
 	for (uint32_t i = 0; i < _numOfLeds; i++) {
 		pinMode(_ledsPins[i], OUTPUT);
-		setLedState(i, !_ledsOnLevel);
+		setLedState(i, false);
 	}
 }

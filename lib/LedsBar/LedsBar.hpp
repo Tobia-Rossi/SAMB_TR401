@@ -36,7 +36,7 @@ class LedsBar
 {
 	public:
 		// Methods
-		LedsBar();
+		LedsBar() = delete;
 		LedsBar(uint32_t numOfLeds, uint32_t ledsPins[], bool ledOnLevel);
 		virtual ~LedsBar();
 
