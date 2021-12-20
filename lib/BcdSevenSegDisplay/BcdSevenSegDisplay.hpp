@@ -36,17 +36,21 @@ class BcdSevenSegDisplay
 	public:
 		// Methods
 		BcdSevenSegDisplay() = delete;
-		BcdSevenSegDisplay(uint32_t);
+		BcdSevenSegDisplay(uint32_t bcdSevenSegPins[4], bool bcdSevenSegActiveLevel = HIGH);
 		virtual ~BcdSevenSegDisplay();
+
+		void bcdSevenSegDisplaySetNumber(uint8_t number);
+		void bcdSevenSegDisplaySetActiveLevel(bool bcdSevenSegActiveLevel);
 
 		// Attributes
 		// Not Allowed
 
 	private:
 		// Methods
-
+		
 		// Attributes
-
+		uint32_t _bcdSevenSegPins[4];
+		bool _bcdSevenSegActiveLevel;
 };
 
 #endif // __BCDSEVENSEGDISPLAY_HPP__
