@@ -18,28 +18,38 @@
 #ifndef __DEMOBOARD_HPP__
 #define __DEMOBOARD_HPP__
 
+#include "BcdSevenSegDisplay.hpp"
 #include "Bluetooth.hpp"
-#include "Buzzer.hpp"
 #include "Button.hpp"
+#include "Buzzer.hpp"
 #include "Dht11.hpp"
 #include "LedsBar.hpp"
 #include "RgbLeds.hpp"
-#include "BcdSevenSegDisplay.hpp"
 #include "Switch.hpp"
 
 class DemoBoard
 {
 	public:
+		// Methods
 		DemoBoard();
 		virtual~DemoBoard();
 
-		// attribute classes
-		Buzzer *buzzer;
+		void setSevenSegmentDisplaysNumber(uint8_t number);
+		uint8_t getSevenSegmentDisplaysNumber() const;
+
+		// Attribute classes
 		Button *capacitiveButton;
+		Buzzer *buzzer;
 		LedsBar *ledsBar;
 		Switch *switchCOrF;
 
 	private:
+		// Methods
+
+		// Attributes
+		BcdSevenSegDisplay *sevenSegmentDisplayTens;
+		BcdSevenSegDisplay *sevenSegmentDisplayUnits;
+		uint8_t _sevenSegmentDisplaysNumber;
 	
 };
 
