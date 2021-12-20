@@ -25,6 +25,7 @@ static DemoBoard *demoBoard = new DemoBoard();
 void capacitiveButtonPressed();
 void switchCOrFChanged();
 
+// Pubblic Functions
 void setup()
 {
 	for (int i = 0; i < 10; i++){
@@ -34,6 +35,8 @@ void setup()
 			demoBoard->ledsBar->setLedState(i, false);
 		}
 	}
+
+	demoBoard->setSevenSegmentDisplaysNumber(55);
 
 	demoBoard->capacitiveButton->setClickedInterruptFunction(capacitiveButtonPressed);
 	demoBoard->switchCOrF->setChangedInterruptFunction(switchCOrFChanged);
@@ -49,6 +52,12 @@ void capacitiveButtonPressed()
 {
 	demoBoard->ledsBar->toggleBarState();
 	demoBoard->buzzer->makeSound(2500, 300);
+
+	if (demoBoard->getSevenSegmentDisplaysNumber() < 99) {
+		demoBoard->setSevenSegmentDisplaysNumber(demoBoard->getSevenSegmentDisplaysNumber() + 1);
+	} else {
+		demoBoard->setSevenSegmentDisplaysNumber(0);
+	}
 }
 
 void switchCOrFChanged()
@@ -57,6 +66,13 @@ void switchCOrFChanged()
 
 	if ((micros() - previousMicros) >= 5000) {
 		demoBoard->ledsBar->toggleBarState();
+
+		if (demoBoard->getSevenSegmentDisplaysNumber() < 99) {
+		demoBoard->setSevenSegmentDisplaysNumber(demoBoard->getSevenSegmentDisplaysNumber() + 1);
+		} else {
+			demoBoard->setSevenSegmentDisplaysNumber(0);
+		}
+
 		previousMicros = micros();
 	}
 }
