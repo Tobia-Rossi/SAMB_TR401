@@ -25,13 +25,16 @@
 
 
 
-// Definitions
-#define READINGS_INTERVAL 2000
+// Constants
+const uint32_t IntervalBtwReadings = 2000;
+const uint32_t NumberOfColors = 8;
 
 
 
+// Static Variables
 // Creates Demo Board Class Instance
 static DemoBoard *demoBoard = new DemoBoard();
+volatile static uint32_t colorListIndex = 0;
 
 // Declaration of CallBack functions
 void capacitiveButtonPressed();
@@ -50,6 +53,52 @@ void readDht11Sensor()
 	demoBoard->ledsBar->setBarLevel(demoBoard->dht11->readHumidity());
 }
 
+void refreshRgbLeds()
+{
+	// ATTENTION SYNC WITH NUMBER OF LEDS
+	switch (colorListIndex)
+	{
+	// SAMB Orange
+	case 0:
+		demoBoard->rgbLeds->setRgbColor(244, 151, 18);
+		break;
+	
+	// Pink
+	case 1:
+		demoBoard->rgbLeds->setRgbColor(255, 98, 157);
+		break;
+
+	case 2:
+		demoBoard->rgbLeds->setRgbColor(255, 0, 0);
+		break;
+
+	case 3:
+		demoBoard->rgbLeds->setRgbColor(0, 255, 0);
+		break;
+
+	case 4:
+		demoBoard->rgbLeds->setRgbColor(0, 0, 255);
+		break;
+
+	case 5:
+		demoBoard->rgbLeds->setRgbColor(255, 255, 0);
+		break;
+
+	case 6:
+		demoBoard->rgbLeds->setRgbColor(255, 0, 255);
+		break;
+
+	case 7:
+		demoBoard->rgbLeds->setRgbColor(0, 255, 255);
+		break;
+
+	default:
+		// OFF
+		demoBoard->rgbLeds->setRgbColor(0, 0, 0);
+		break;
+	}
+}
+
 void setup()
 {
 	for (int i = 0; i < 10; i++){
@@ -61,6 +110,8 @@ void setup()
 	demoBoard->capacitiveButton->setClickedInterruptFunction(capacitiveButtonPressed);
 
 	demoBoard->dht11->begin();
+
+	refreshRgbLeds();
 }
 
 void loop()
@@ -68,7 +119,7 @@ void loop()
 	static uint32_t previousReadingsMillis = millis();
 
 	// Reading interval elapsed actions
-	if (millis() - previousReadingsMillis >= READINGS_INTERVAL) {
+	if (millis() - previousReadingsMillis >= IntervalBtwReadings) {
 		// Unit Check
 		if (demoBoard->switchCOrF->getSwitchState() == true) {
 			demoBoard->setTemperatureIsInCelsius(false);
@@ -80,6 +131,11 @@ void loop()
 		readDht11Sensor();
 		previousReadingsMillis = millis();
 	}
+
+	// Refreshing RGB leds if button was pressed
+	if (demoBoard->getColorChanged() == true) {
+		refreshRgbLeds();
+	}
 }
 
 // Callbacks
@@ -88,5 +144,12 @@ void capacitiveButtonPressed()
 	// Makes Sound
 	demoBoard->buzzer->makeSound(2500, 300);
 	
-	// TODO: ADD RGB LEDS COLOR LIST RANDOM SELECT TOGGLE
+	// Change Color
+	demoBoard->setColorChanged(true);
+	
+	if (colorListIndex < (NumberOfColors - 1)) {
+		colorListIndex++;
+	} else {
+		colorListIndex = 0;
+	}
 }
