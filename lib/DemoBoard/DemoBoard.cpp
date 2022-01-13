@@ -22,6 +22,9 @@ static uint32_t umidityBarPins[10] = {23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
 static uint32_t sevenSegmentDisplayTensPins[4] = {41, 40, 39, 38};
 static uint32_t sevenSegmentDisplayUnitsPins[4] = {37, 36, 35, 34};
 
+// Class Implementations
+
+// Public
 DemoBoard::DemoBoard()
 {
 	_sevenSegmentDisplayTens = new BcdSevenSegDisplay(sevenSegmentDisplayTensPins);
@@ -30,10 +33,12 @@ DemoBoard::DemoBoard()
 	buzzer = new Buzzer(2);
 	dht11 = new DHT(33, DHT11);
 	ledsBar = new LedsBar(10, umidityBarPins, LOW);
+	rgbLeds = new RgbLed(10, 11, 12, 8, HIGH);
 	switchCOrF = new Switch(32);
 
 	_sevenSegmentDisplaysNumber = 88;
 	_temperatureIsInCelsius = !switchCOrF->getSwitchState();
+	_colorChanged = false;
 }
 
 DemoBoard::~DemoBoard()
@@ -53,6 +58,10 @@ DemoBoard::~DemoBoard()
 	// Delete LedsBar
 	delete ledsBar;
 	ledsBar = nullptr;
+
+	// Delete RGB Leds
+	delete rgbLeds;
+	rgbLeds = nullptr;
 
 	// Delete Switch C or F
 	delete switchCOrF;
@@ -76,7 +85,19 @@ void DemoBoard::setTemperatureIsInCelsius(bool temperatureIsInCelsius)
 	_temperatureIsInCelsius = temperatureIsInCelsius;
 }
 
-bool DemoBoard::getTemperatureIsInCelsius()
+bool DemoBoard::getTemperatureIsInCelsius() const
 {
 	return _temperatureIsInCelsius;
 }
+
+void DemoBoard::setColorChanged(bool colorChanged)
+{
+	_colorChanged = colorChanged;
+}
+
+bool DemoBoard::getColorChanged() const
+{
+	return _colorChanged;
+}
+
+// Private

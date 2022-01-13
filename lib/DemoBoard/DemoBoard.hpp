@@ -18,15 +18,17 @@
 #ifndef __DEMOBOARD_HPP__
 #define __DEMOBOARD_HPP__
 
+// Application Includes
 #include "BcdSevenSegDisplay.hpp"
 #include "Bluetooth.hpp"
 #include "Button.hpp"
 #include "Buzzer.hpp"
 #include "DHT.h"
 #include "LedsBar.hpp"
-#include "RgbLeds.hpp"
+#include "RgbLed.hpp"
 #include "Switch.hpp"
 
+// Class Declaration
 class DemoBoard
 {
 	public:
@@ -38,13 +40,17 @@ class DemoBoard
 		uint8_t getSevenSegmentDisplaysNumber() const;
 
 		void setTemperatureIsInCelsius(bool temperatureIsInCelsius);
-		bool getTemperatureIsInCelsius();
+		bool getTemperatureIsInCelsius() const;
+
+		void setColorChanged(bool colorChanged);
+		bool getColorChanged() const;
 
 		// Attribute classes
 		Button *capacitiveButton;
 		Buzzer *buzzer;
 		DHT *dht11;
 		LedsBar *ledsBar;
+		RgbLed *rgbLeds;
 		Switch *switchCOrF;
 
 	private:
@@ -55,7 +61,7 @@ class DemoBoard
 		BcdSevenSegDisplay *_sevenSegmentDisplayUnits;
 		uint8_t _sevenSegmentDisplaysNumber;
 		bool _temperatureIsInCelsius;
-	
+		volatile bool _colorChanged;
 };
 
 #endif // __DEMOBOARD_HPP__
