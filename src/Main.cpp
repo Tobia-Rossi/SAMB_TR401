@@ -60,10 +60,10 @@ void refreshRgbLeds()
 	{
 	// SAMB Orange
 	case 0:
-		demoBoard->rgbLeds->setRgbColor(244, 151, 18);
+		demoBoard->rgbLeds->setRgbColor(255, 40, 0);
 		break;
 	
-	// Pink
+	// Purple
 	case 1:
 		demoBoard->rgbLeds->setRgbColor(255, 98, 157);
 		break;
@@ -136,6 +136,19 @@ void loop()
 	if (demoBoard->getColorChanged() == true) {
 		refreshRgbLeds();
 	}
+
+// Crazy Mode Start
+	/*
+	if (colorListIndex < (NumberOfColors - 1)) {
+		colorListIndex++;
+		refreshRgbLeds();
+	} else {
+		colorListIndex = 0;
+		refreshRgbLeds();
+	}
+	delay(50);
+	*/
+// Crazy Mode End
 }
 
 // Callbacks
