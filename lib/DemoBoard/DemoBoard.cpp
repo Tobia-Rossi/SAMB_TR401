@@ -32,7 +32,7 @@ DemoBoard::DemoBoard()
 	capacitiveButton = new Button(13, HIGH);
 	buzzer = new Buzzer(2);
 	dht11 = new DHT(33, DHT11);
-	ledsBar = new LedsBar(10, umidityBarPins, LOW);
+	ledsBar = new LedsBar(10, umidityBarPins, HIGH);
 	rgbLeds = new RgbLed(10, 11, 12, 8, HIGH);
 	switchCOrF = new Switch(32);
 

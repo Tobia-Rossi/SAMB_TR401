@@ -27,7 +27,7 @@
 
 // Constants
 const uint32_t IntervalBtwReadings = 2000;
-const uint32_t NumberOfColors = 8;
+const uint32_t NumberOfColors = 9;
 
 
 
@@ -92,6 +92,10 @@ void refreshRgbLeds()
 		demoBoard->rgbLeds->setRgbColor(0, 255, 255);
 		break;
 
+	case 8:
+		demoBoard->rgbLeds->setRgbColor(255, 255, 255);
+		break;
+
 	default:
 		// OFF
 		demoBoard->rgbLeds->setRgbColor(0, 0, 0);
@@ -121,7 +125,7 @@ void loop()
 	// Reading interval elapsed actions
 	if (millis() - previousReadingsMillis >= IntervalBtwReadings) {
 		// Unit Check
-		if (demoBoard->switchCOrF->getSwitchState() == true) {
+		if (demoBoard->switchCOrF->getSwitchState() == false) {
 			demoBoard->setTemperatureIsInCelsius(false);
 		} else {
 			demoBoard->setTemperatureIsInCelsius(true);
@@ -155,7 +159,7 @@ void loop()
 void capacitiveButtonPressed()
 {
 	// Makes Sound
-	demoBoard->buzzer->makeSound(2500, 300);
+	demoBoard->buzzer->makeSound(2700, 300);
 	
 	// Change Color
 	demoBoard->setColorChanged(true);
