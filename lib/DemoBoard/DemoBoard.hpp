@@ -20,7 +20,6 @@
 
 // Application Includes
 #include "BcdSevenSegDisplay.hpp"
-#include "Bluetooth.hpp"
 #include "Button.hpp"
 #include "Buzzer.hpp"
 #include "DHT.h"
