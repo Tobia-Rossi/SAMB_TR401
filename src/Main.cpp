@@ -25,9 +25,23 @@
 
 
 
+// Typedef
+typedef enum { // When you modify add command to both switch cases below
+	COMMAND_SET_LEDS_COLOR = 0x4C,
+	COMMAND_CYCLE_COLORS = 0x5C
+} bleCommands;
+
+
 // Constants
 const uint32_t IntervalBtwReadings = 2000;
 const uint32_t NumberOfColors = 9;
+
+// BLT
+const char ComunicationStartCode = 0x1C;
+const char ComunicationIsCommandCode = 0x2C;
+const char ComunicationIsTextCode = 0x3C;
+const char CommandErrorCode = 0xFC;
+const uint32_t TimeOutRecievingCommandData = 10000; // in milliseconds
 
 
 
@@ -120,7 +134,15 @@ void setup()
 
 void loop()
 {
+	static uint8_t commandDataBytesToWait = 0;
+	static char commandToExecute = 0x00;
+
+	static bool crazyMode = false;
+
 	static uint32_t previousReadingsMillis = millis();
+	static uint32_t startRecievingCommandData = millis();
+
+	static char dummy = 0;
 
 	// Reading interval elapsed actions
 	if (millis() - previousReadingsMillis >= IntervalBtwReadings) {
@@ -141,17 +163,122 @@ void loop()
 		refreshRgbLeds();
 	}
 
-// Crazy Mode Start
-	/*
-	if (colorListIndex < (NumberOfColors - 1)) {
-		colorListIndex++;
-		refreshRgbLeds();
-	} else {
-		colorListIndex = 0;
-		refreshRgbLeds();
+// Bluetooth Comunication Recieve START
+	// Capture comunication meaning
+	if (demoBoard->getNumberOfBytesInBluetoothBuffer() >= 3 && (commandDataBytesToWait == 0)) {
+		if (demoBoard->readByteFromBluetoothBuffer() == ComunicationStartCode) {
+			if (demoBoard->readByteFromBluetoothBuffer() == ComunicationIsCommandCode) {
+				commandToExecute = demoBoard->readByteFromBluetoothBuffer();
+				Serial.print("Command Recieved:");
+				Serial.println(commandToExecute, HEX);
+
+				// Set how much data to wait for
+				switch (commandToExecute) {
+				case COMMAND_SET_LEDS_COLOR:
+					commandDataBytesToWait = 3;
+					break;
+
+				case COMMAND_CYCLE_COLORS:
+					commandDataBytesToWait = 0;
+					break;
+				
+				default:
+					Serial.println("INVALID COMMAND");
+					demoBoard->sendByteViaBluetooth('N');
+					demoBoard->sendByteViaBluetooth('O');
+					demoBoard->sendByteViaBluetooth('\n');
+					commandToExecute = 0x00;
+					commandDataBytesToWait = 0;
+					break;
+				}
+
+				startRecievingCommandData = millis();
+			} else if (demoBoard->readByteFromBluetoothBuffer() == ComunicationIsTextCode) {
+				Serial.print(demoBoard->readByteFromBluetoothBuffer());
+			}
+		}
 	}
-	delay(50);
+
+	// Execute commands if data has been recieved
+	if (commandDataBytesToWait <= demoBoard->getNumberOfBytesInBluetoothBuffer() && (commandToExecute != 0x00)) {
+		switch (commandToExecute)
+		{
+		case COMMAND_SET_LEDS_COLOR:
+			demoBoard->rgbLeds->setRgbColor(demoBoard->readByteFromBluetoothBuffer(), demoBoard->readByteFromBluetoothBuffer(), demoBoard->readByteFromBluetoothBuffer());
+			break;
+
+		case COMMAND_CYCLE_COLORS:
+			// Makes Sound
+			demoBoard->buzzer->makeSound(2700, 300);
+	
+			// Change Color
+			demoBoard->setColorChanged(true);
+	
+			if (colorListIndex < (NumberOfColors - 1)) {
+				colorListIndex++;
+			} else {
+				colorListIndex = 0;
+			}
+			break;
+		
+		default:
+			// Send Error code to Bluetooth
+			demoBoard->sendByteViaBluetooth(CommandErrorCode);
+			break;
+		}
+
+		commandToExecute = 0;
+		commandDataBytesToWait = 0;
+	}
+
+	// Timeout recieving data if it takes too long
+	if ((commandToExecute != 0x00) && (millis() - startRecievingCommandData) >= TimeOutRecievingCommandData) {
+		demoBoard->sendByteViaBluetooth('T');
+		demoBoard->sendByteViaBluetooth('I');
+		demoBoard->sendByteViaBluetooth('M');
+		demoBoard->sendByteViaBluetooth('E');
+		demoBoard->sendByteViaBluetooth('D');
+		demoBoard->sendByteViaBluetooth(' ');
+		demoBoard->sendByteViaBluetooth('O');
+		demoBoard->sendByteViaBluetooth('U');
+		demoBoard->sendByteViaBluetooth('T');
+		demoBoard->sendByteViaBluetooth('\n');
+
+		Serial.println("Command has Timed Out");
+
+		commandToExecute = 0;
+		commandDataBytesToWait = 0;
+
+		(void) dummy;
+		while (demoBoard->getNumberOfBytesInBluetoothBuffer() > 0) {
+			dummy = demoBoard->readByteFromBluetoothBuffer();
+		}
+	}
+// Bluetooth Command Recieve END
+
+// Bluetooth AT Command From PC START
+	/*
+	if (demoBoard->getNumberOfBytesInBluetoothBuffer() > 0) {
+		Serial.print(demoBoard->readByteFromBluetoothBuffer());
+	}
+
+	if (Serial.available() > 0) {
+		demoBoard->sendByteViaBluetooth(Serial.read());
+	}
 	*/
+// Bluetooth AT Command From PC END
+
+// Crazy Mode Start
+	if (crazyMode) {
+		if (colorListIndex < (NumberOfColors - 1)) {
+			colorListIndex++;
+			refreshRgbLeds();
+		} else {
+			colorListIndex = 0;
+			refreshRgbLeds();
+		}
+		delay(50);
+	}
 // Crazy Mode End
 }
 

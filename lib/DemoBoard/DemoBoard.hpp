@@ -27,6 +27,10 @@
 #include "RgbLed.hpp"
 #include "Switch.hpp"
 
+// System includes
+
+
+
 // Class Declaration
 class DemoBoard
 {
@@ -43,6 +47,10 @@ class DemoBoard
 
 		void setColorChanged(bool colorChanged);
 		bool getColorChanged() const;
+
+		void sendByteViaBluetooth(char byteToSend);
+		char getNumberOfBytesInBluetoothBuffer() const;
+		char readByteFromBluetoothBuffer() const;
 
 		// Attribute classes
 		Button *capacitiveButton;

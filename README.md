@@ -8,8 +8,6 @@
 <a href="https://discord.gg/GemxCWtKCX"><img src="https://img.shields.io/discord/921013923136811028"></a>
 </p>
 
-<h2><b>THE PROJECT IS A WORK IN PROGRESS!!</b></h2>
-
 <h1>Vetrina Entrata SAMB - CanSat 2021</h1>
 
 <h2>Project Info</h2>

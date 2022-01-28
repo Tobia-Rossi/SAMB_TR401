@@ -14,8 +14,11 @@
 // Company e-mail:      decs-cpt.bellinzonaedu.ti.ch
 
 
-
+// Application Includes
 #include "DemoBoard.hpp"
+
+// Definitions
+#define BLUETOOTH Serial1
 
 // Static variables
 static uint32_t umidityBarPins[10] = {23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
@@ -35,6 +38,8 @@ DemoBoard::DemoBoard()
 	ledsBar = new LedsBar(10, umidityBarPins, HIGH);
 	rgbLeds = new RgbLed(10, 11, 12, 8, HIGH);
 	switchCOrF = new Switch(32);
+
+	BLUETOOTH.begin(115200);
 
 	_sevenSegmentDisplaysNumber = 88;
 	_temperatureIsInCelsius = !switchCOrF->getSwitchState();
@@ -98,6 +103,21 @@ void DemoBoard::setColorChanged(bool colorChanged)
 bool DemoBoard::getColorChanged() const
 {
 	return _colorChanged;
+}
+
+void DemoBoard::sendByteViaBluetooth(char byteToSend)
+{
+	BLUETOOTH.print(byteToSend);
+}
+
+char DemoBoard::getNumberOfBytesInBluetoothBuffer() const
+{
+	return BLUETOOTH.available();
+}
+
+char DemoBoard::readByteFromBluetoothBuffer() const 
+{
+	return BLUETOOTH.read();
 }
 
 // Private
