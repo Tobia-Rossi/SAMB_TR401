@@ -25,10 +25,16 @@
 
 
 
+// Features
+// #define FEAT_SERIAL_DEBUG
+
+
+
 // Typedef
 typedef enum { // When you modify add command to both switch cases below
 	COMMAND_SET_LEDS_COLOR = 0x4C,
-	COMMAND_CYCLE_COLORS = 0x5C
+	COMMAND_CYCLE_COLORS = 0x5C,
+	COMMAND_TOGGLE_CRAZY_MODE = 0x6C
 } bleCommands;
 
 
@@ -115,6 +121,8 @@ void refreshRgbLeds()
 		demoBoard->rgbLeds->setRgbColor(0, 0, 0);
 		break;
 	}
+
+	demoBoard->setColorChanged(false);
 }
 
 void setup()
@@ -135,6 +143,7 @@ void setup()
 void loop()
 {
 	static uint8_t commandDataBytesToWait = 0;
+	static char communicationMode = 0x00;
 	static char commandToExecute = 0x00;
 
 	static bool crazyMode = false;
@@ -167,67 +176,111 @@ void loop()
 	// Capture comunication meaning
 	if (demoBoard->getNumberOfBytesInBluetoothBuffer() >= 3 && (commandDataBytesToWait == 0)) {
 		if (demoBoard->readByteFromBluetoothBuffer() == ComunicationStartCode) {
-			if (demoBoard->readByteFromBluetoothBuffer() == ComunicationIsCommandCode) {
+			communicationMode = demoBoard->readByteFromBluetoothBuffer();
+			if (communicationMode == ComunicationIsCommandCode) {
 				commandToExecute = demoBoard->readByteFromBluetoothBuffer();
+
+				#ifdef FEAT_SERIAL_DEBUG
 				Serial.print("Command Recieved:");
 				Serial.println(commandToExecute, HEX);
+				#endif // FEAT_SERIAL_DEBUG
 
 				// Set how much data to wait for
 				switch (commandToExecute) {
-				case COMMAND_SET_LEDS_COLOR:
-					commandDataBytesToWait = 3;
-					break;
+					case COMMAND_SET_LEDS_COLOR:
+						commandDataBytesToWait = 3;
+						break;
 
-				case COMMAND_CYCLE_COLORS:
-					commandDataBytesToWait = 0;
-					break;
-				
-				default:
-					Serial.println("INVALID COMMAND");
-					demoBoard->sendByteViaBluetooth('N');
-					demoBoard->sendByteViaBluetooth('O');
-					demoBoard->sendByteViaBluetooth('\n');
-					commandToExecute = 0x00;
-					commandDataBytesToWait = 0;
-					break;
+					case COMMAND_CYCLE_COLORS:
+						commandDataBytesToWait = 0;
+						break;
+
+					case COMMAND_TOGGLE_CRAZY_MODE:
+						commandDataBytesToWait = 0;
+						break;
+					
+					default:
+						#ifdef FEAT_SERIAL_DEBUG
+						Serial.println("INVALID COMMAND");
+						#endif // FEAT_SERIAL_DEBUG
+
+						demoBoard->sendByteViaBluetooth('N');
+						demoBoard->sendByteViaBluetooth('O');
+						demoBoard->sendByteViaBluetooth('\n');
+						commandToExecute = 0x00;
+						commandDataBytesToWait = 0;
+						break;
 				}
 
+				#ifdef FEAT_SERIAL_DEBUG
+				Serial.print("Command to Execute: ");
+				Serial.println(commandToExecute, HEX);
+				Serial.print("Data to wait: ");
+				Serial.println(commandDataBytesToWait);
+				#endif // FEAT_SERIAL_DEBUG
+
 				startRecievingCommandData = millis();
-			} else if (demoBoard->readByteFromBluetoothBuffer() == ComunicationIsTextCode) {
+			} else if (communicationMode == ComunicationIsTextCode) {
+				#ifdef FEAT_SERIAL_DEBUG
 				Serial.print(demoBoard->readByteFromBluetoothBuffer());
+				#endif // FEAT_SERIAL_DEBUG
 			}
 		}
 	}
 
 	// Execute commands if data has been recieved
-	if (commandDataBytesToWait <= demoBoard->getNumberOfBytesInBluetoothBuffer() && (commandToExecute != 0x00)) {
-		switch (commandToExecute)
-		{
-		case COMMAND_SET_LEDS_COLOR:
-			demoBoard->rgbLeds->setRgbColor(demoBoard->readByteFromBluetoothBuffer(), demoBoard->readByteFromBluetoothBuffer(), demoBoard->readByteFromBluetoothBuffer());
-			break;
+	if ((commandDataBytesToWait <= demoBoard->getNumberOfBytesInBluetoothBuffer()) && (commandToExecute != 0x00)) {
+		#ifdef FEAT_SERIAL_DEBUG
+		Serial.print("Data Bytes Recieved: ");
+		Serial.println(demoBoard->getNumberOfBytesInBluetoothBuffer(), DEC);
+		Serial.print("Command in execution: ");
+		Serial.println(commandToExecute, HEX);
+		#endif // FEAT_SERIAL_DEBUG
 
-		case COMMAND_CYCLE_COLORS:
-			// Makes Sound
-			demoBoard->buzzer->makeSound(2700, 300);
-	
-			// Change Color
-			demoBoard->setColorChanged(true);
-	
-			if (colorListIndex < (NumberOfColors - 1)) {
-				colorListIndex++;
-			} else {
-				colorListIndex = 0;
-			}
-			break;
+		switch (commandToExecute) {
+			case COMMAND_SET_LEDS_COLOR:
+				#ifdef FEAT_SERIAL_DEBUG
+				Serial.println("I'm here in 4C LOL");
+				// Serial.print("R: ");
+				// Serial.print(demoBoard->readByteFromBluetoothBuffer(), HEX);
+				// Serial.print(" G: ");
+				// Serial.print(demoBoard->readByteFromBluetoothBuffer(), HEX);
+				// Serial.print(" B: ");
+				// Serial.println(demoBoard->readByteFromBluetoothBuffer(), HEX);
+				#endif // FEAT_SERIAL_DEBUG
+
+				demoBoard->rgbLeds->setRgbColor(demoBoard->readByteFromBluetoothBuffer(), demoBoard->readByteFromBluetoothBuffer(), demoBoard->readByteFromBluetoothBuffer());
+				break;
+
+			case COMMAND_CYCLE_COLORS:
+				// Makes Sound
+				demoBoard->buzzer->makeSound(2700, 300);
 		
-		default:
-			// Send Error code to Bluetooth
-			demoBoard->sendByteViaBluetooth(CommandErrorCode);
-			break;
+				// Change Color
+				demoBoard->setColorChanged(true);
+		
+				if (colorListIndex < (NumberOfColors - 1)) {
+					colorListIndex++;
+				} else {
+					colorListIndex = 0;
+				}
+				break;
+
+			case COMMAND_TOGGLE_CRAZY_MODE:
+				crazyMode = !crazyMode;
+				break;
+			
+			default:
+				// Send Error code to Bluetooth
+				demoBoard->sendByteViaBluetooth(CommandErrorCode);
+
+				#ifdef FEAT_SERIAL_DEBUG
+				Serial.println("COMMAND ERROR");
+				#endif // FEAT_SERIAL_DEBUG
+				break;
 		}
 
-		commandToExecute = 0;
+		commandToExecute = 0x00;
 		commandDataBytesToWait = 0;
 	}
 
@@ -244,13 +297,15 @@ void loop()
 		demoBoard->sendByteViaBluetooth('T');
 		demoBoard->sendByteViaBluetooth('\n');
 
+		#ifdef FEAT_SERIAL_DEBUG
 		Serial.println("Command has Timed Out");
+		#endif // FEAT_SERIAL_DEBUG
 
 		commandToExecute = 0;
 		commandDataBytesToWait = 0;
 
-		(void) dummy;
 		while (demoBoard->getNumberOfBytesInBluetoothBuffer() > 0) {
+			(void) dummy;
 			dummy = demoBoard->readByteFromBluetoothBuffer();
 		}
 	}
